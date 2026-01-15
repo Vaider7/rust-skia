@@ -123,7 +123,8 @@ impl BinariesConfiguration {
         let target = cargo::target();
 
         cargo::add_static_link_libs(&target, self.built_libraries(true));
-        cargo::add_link_libs(&self.link_libraries);
+        cargo::add_static_link_libs(&target, &self.link_libraries);
+        cargo::add_link_libs(["stdc++"]);
     }
 
     /// Import library and additional files from `from_dir` to the output directory.

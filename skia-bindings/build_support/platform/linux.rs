@@ -25,15 +25,16 @@ impl PlatformDetails for Linux {
 }
 
 pub fn gn_args(config: &BuildConfiguration, builder: &mut GnArgsBuilder) {
+    builder.arg("skia_use_fontconfig", no());
     generic::gn_args(config, builder);
 }
 
 pub fn link_libraries(features: &Features) -> Vec<String> {
-    let mut libs = vec!["stdc++".to_string()];
+    let mut libs = vec![];
 
     // Use pkg-config for system libraries when available
-    add_pkg_config_libs(&mut libs, "freetype2", &["freetype"]);
-    add_pkg_config_libs(&mut libs, "fontconfig", &["fontconfig"]);
+    // add_pkg_config_libs(&mut libs, "freetype2", &["freetype"]);
+    // add_pkg_config_libs(&mut libs, "fontconfig", &["fontconfig"]);
 
     if features[feature::GL] {
         if features[feature::EGL] {

@@ -1,3 +1,4 @@
 [submodule "skia"]
 	path = skia-bindings/skia
-	url = https://github.com/rust-skia/skia.git
+	url = https://github.com/Vaider7/skia.git
+	branch = noskdebugf

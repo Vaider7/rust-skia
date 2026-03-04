@@ -43,7 +43,7 @@ impl PlatformDetails for MacOs {
     }
 
     fn link_libraries(&self, features: &Features) -> Vec<String> {
-        let mut libs = vec!["c++", "framework=ApplicationServices"];
+        let mut libs = vec!["framework=ApplicationServices"];
         if features[feature::GL] {
             libs.push("framework=OpenGL");
         }

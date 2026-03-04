@@ -48,10 +48,16 @@ pub fn add_static_link_libs<T: AsRef<str>>(target: &Target, libs: impl IntoItera
 pub fn add_static_link_lib(target: &Target, lib: impl AsRef<str>) {
     // Prefixing the libraries we built with `static=` causes linker errors on Windows.
     // https://github.com/rust-skia/rust-skia/pull/354
-    if target.is_linux() {
-        println!("cargo:rustc-link-lib=static={}", lib.as_ref());
-    } else {
+    if target.is_windows() {
         println!("cargo:rustc-link-lib={}", lib.as_ref());
+        return;
+    }
+
+    let contains_framework = lib.as_ref().contains("framework");
+    if contains_framework {
+        println!("cargo:rustc-link-lib={}", lib.as_ref());
+    } else {
+        println!("cargo:rustc-link-lib=static={}", lib.as_ref());
     }
 }
 
@@ -70,10 +76,6 @@ pub struct Target {
 impl Target {
     pub fn is_windows(&self) -> bool {
         self.system == "windows"
-    }
-
-    pub fn is_linux(&self) -> bool {
-        self.system == "linux"
     }
 
     pub fn builds_with_msvc(&self) -> bool {

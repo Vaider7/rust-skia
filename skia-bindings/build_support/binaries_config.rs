@@ -124,7 +124,9 @@ impl BinariesConfiguration {
 
         cargo::add_static_link_libs(&target, self.built_libraries(true));
         cargo::add_static_link_libs(&target, &self.link_libraries);
-        cargo::add_link_libs(["c++"]);
+        if !target.is_windows() {
+            cargo::add_link_libs(["c++"]);
+        }
     }
 
     /// Import library and additional files from `from_dir` to the output directory.
